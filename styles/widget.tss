@@ -1,0 +1,7 @@
+/*
+".imc-checkbox" : { height: 24 }
+	".imc-checkbox-icon": { width: 22.5, height: 24, left: 0, touchEnabled: false }
+	".imc-checkbox-icon-normal": { image: '/images/checkbox.png' }
+	".imc-checkbox-icon-selected": { image: '/images/checkbox-on.png' }
+	".imc-checkbox-title": { left: 32.5, color: '#fff', font: { fontSize: 12, fontFamily: 'HelveticaNeue' }, touchEnabled: false }
+*/
