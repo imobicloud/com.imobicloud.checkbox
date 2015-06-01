@@ -6,7 +6,7 @@ Custom checkbox
 
 xml
 
-	<Widget id="vCheckbox" src="com.imobicloud.checkbox" selected="true" title="Remember me" class="custom-checkbox"/>
+	<Widget id="vCheckbox" src="com.imobicloud.checkbox" selected="true" title="Notify me 30 min before" class="custom-checkbox"/>
 	
 tss
 
