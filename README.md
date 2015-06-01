@@ -1,7 +1,7 @@
 # Titanium UI - Checkbox
 
 Custom checkbox
-![Checkbox example](https://goo.gl/photos/rpF9gX7UEDV8o7Sg9)
+![Checkbox example](http://i.imgur.com/lf1SKrY.png)
 
 xml
 
