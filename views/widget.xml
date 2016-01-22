@@ -1,6 +1,3 @@
 <Alloy>
-	<View id="vCheckbox" class="imc-checkbox" onClick="checkboxClick">
-		<ImageView id="icon" class="imc-checkbox-icon"/>
-		<Label id="title" class="imc-checkbox-title">Filters</Label>
-	</View>
+	<View id="container" width="Ti.UI.SIZE" height="Ti.UI.SIZE" onClick="checkboxClick"/>
 </Alloy>
