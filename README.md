@@ -18,9 +18,23 @@ tss
 		// ".imc-checkbox-title-normal": {}
 		// ".imc-checkbox-title-selected": {}
 		
+		/*
+		// use iconfont for checkbox's icon
+		".imc-iconfont-checkbox-icon": { left: 0, color: '#6389c1', font: { fontSize: 18, fontFamily: 'sportsmap_iconfont' } }
+		".imc-iconfont-checkbox-icon-normal": { text: 'checkbox_e' }
+		".imc-iconfont-checkbox-icon-selected": { text: 'checkbox_f' }
+		".imc-iconfont-checkbox-title": { left: 32.5, color: '#fff', font: { fontSize: 12, fontFamily: 'HelveticaNeue' } }
+		*/
+		
 js
 
 	$.chkIndoor.load($, { id: 'indoor', selected: true, title: 'Indoor', classes: 'imc' });
+	
+	/*
+	// use iconfont for checkbox's icon
+	// https://github.com/imobicloud/libs/blob/master/iconfont.js
+	$.chkIndoor.load($, { id: 'indoor', selected: true, title: 'Indoor', classes: 'imc-iconfont', module: require('iconfont') });
+	*/
 	
 	// get params
 	$.chkIndoor.getParams();

@@ -7,10 +7,11 @@ function init(args) {
 }
 
 /*
- args = {
+ _params = {
  	classes: '',
  	selected: false,
- 	title: ''
+ 	title: '',
+ 	module: null // use iconfont module for icon. ex: require('iconfont')
  }
  * */
 exports.load = function(_G, _params) {
@@ -20,9 +21,16 @@ exports.load = function(_G, _params) {
 	params = _params;
 	
 	var classes = _params.classes,
-		state = params.selected != true ? '-normal' : '-selected';
-	$.container.add( G.UI.create('ImageView', { classes: classes + '-checkbox-icon '  + classes + '-checkbox-icon'  + state, touchEnabled: false }) );
-	$.container.add( G.UI.create('Label',     { classes: classes + '-checkbox-title ' + classes + '-checkbox-title' + state, text: params.title, touchEnabled: false }) );
+		state = _params.selected != true ? '-normal' : '-selected';
+		
+	var checkboxStyle = { classes: classes + '-checkbox-icon '  + classes + '-checkbox-icon'  + state, touchEnabled: false };
+	if (_params.module == null) {
+		$.container.add( _G.UI.create('ImageView', checkboxStyle) );
+	} else {
+		$.container.add( _params.module.createLabel( _G.createStyle(checkboxStyle) ) );
+	}
+		
+	$.container.add( _G.UI.create('Label', { classes: classes + '-checkbox-title ' + classes + '-checkbox-title' + state, text: _params.title, touchEnabled: false }) );
 };
 
 exports.unload = function() {
@@ -42,7 +50,12 @@ function setValue(isSelected) {
   		children = $.container.children,
   		state = params.selected != true ? '-normal' : '-selected';
   	
-  	children[0].applyProperties( G.createStyle({ classes: classes + '-checkbox-icon'  + state }) );
+  	var checkboxStyle = G.createStyle({ classes: classes + '-checkbox-icon'  + state });
+  	if (params.module && checkboxStyle.text) {
+  		checkboxStyle.text = params.module.getText(checkboxStyle.text);
+	}
+  	children[0].applyProperties(checkboxStyle);
+  	
   	children[1].applyProperties( G.createStyle({ classes: classes + '-checkbox-title'  + state }) );
 }
 exports.setValue = setValue;
