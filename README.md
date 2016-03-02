@@ -29,6 +29,8 @@ tss
 js
 
 	$.chkIndoor.load($, { id: 'indoor', selected: true, title: 'Indoor', classes: 'imc' });
+	// or 
+	// $.chkIndoor.load($, { id: 'indoor', selected: true, title: null, classes: 'imc' });
 	
 	/*
 	// use iconfont for checkbox's icon

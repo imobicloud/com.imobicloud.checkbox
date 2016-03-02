@@ -10,7 +10,7 @@ function init(args) {
  _params = {
  	classes: '',
  	selected: false,
- 	title: '',
+ 	title: '', or null
  	module: null // use iconfont module for icon. ex: require('iconfont')
  }
  * */
@@ -29,8 +29,10 @@ exports.load = function(_G, _params) {
 	} else {
 		$.container.add( _params.module.createLabel( _G.createStyle(checkboxStyle) ) );
 	}
-		
-	$.container.add( _G.UI.create('Label', { classes: classes + '-checkbox-title ' + classes + '-checkbox-title' + state, text: _params.title, touchEnabled: false }) );
+	
+	if (_params.title) {
+		$.container.add( _G.UI.create('Label', { classes: classes + '-checkbox-title ' + classes + '-checkbox-title' + state, text: _params.title, touchEnabled: false }) );
+	}
 };
 
 exports.unload = function() {
