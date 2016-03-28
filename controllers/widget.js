@@ -1,7 +1,8 @@
-var G, params;
+var id, G, params;
 
 init(arguments[0] || {});
 function init(args) {
+	id = args.id;
 	var exclude = ['id', 'children'];
 	$.container.applyProperties(_.omit(args, exclude));
 }
@@ -29,7 +30,7 @@ exports.load = function(_G, _params) {
 	} else {
 		$.container.add( _params.module.createLabel( _G.createStyle(checkboxStyle) ) );
 	}
-	
+		
 	if (_params.title) {
 		$.container.add( _G.UI.create('Label', { classes: classes + '-checkbox-title ' + classes + '-checkbox-title' + state, text: _params.title, touchEnabled: false }) );
 	}
@@ -42,7 +43,7 @@ exports.unload = function() {
 
 function checkboxClick(e) {
 	setValue(!params.selected);
-  	$.trigger('change', { value: params.selected });
+  	$.trigger('change', { id: id, value: params.selected });
 }
 
 function setValue(isSelected) {
