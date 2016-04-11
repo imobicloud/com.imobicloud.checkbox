@@ -57,9 +57,15 @@ function setValue(isSelected) {
   	if (params.module && checkboxStyle.text) {
   		checkboxStyle.text = params.module.getText(checkboxStyle.text);
 	}
-  	children[0].applyProperties(checkboxStyle);
+	
+	if (children[0]) {
+		children[0].applyProperties(checkboxStyle);
+	}
   	
-  	children[1].applyProperties( G.createStyle({ classes: classes + '-checkbox-title'  + state }) );
+  	if (children[1]) {
+  		children[1].applyProperties( G.createStyle({ classes: classes + '-checkbox-title'  + state }) );
+  	}
+  	
 }
 exports.setValue = setValue;
 
