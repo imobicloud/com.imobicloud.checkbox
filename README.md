@@ -6,45 +6,54 @@ Custom checkbox
 
 xml
 
-	<Widget id="chkIndoor" src="com.imobicloud.checkbox" class="imc-checkbox"/>
+	<Widget id="chkIndoor" src="com.imobicloud.checkbox" class="checkbox checkbox-indoor" onClick="chkIndoorClick"/>
 	
 tss
 
-	".imc-checkbox" : { height: 24 }
-		".imc-checkbox-icon": { width: 22.5, height: 24, left: 0 }
-		".imc-checkbox-icon-normal": { image: '/images/checkbox.png' }
-		".imc-checkbox-icon-selected": { image: '/images/checkbox-on.png' }
-		".imc-checkbox-title": { left: 32.5, color: '#fff', font: { fontSize: 12, fontFamily: 'HelveticaNeue' } }
-		// ".imc-checkbox-title-normal": {}
-		// ".imc-checkbox-title-selected": {}
-		
-		/*
-		// use iconfont for checkbox's icon
-		".imc-iconfont-checkbox-icon": { left: 0, color: '#6389c1', font: { fontSize: 18, fontFamily: 'sportsmap_iconfont' } }
-		".imc-iconfont-checkbox-icon-normal": { text: 'checkbox_e' }
-		".imc-iconfont-checkbox-icon-selected": { text: 'checkbox_f' }
-		".imc-iconfont-checkbox-title": { left: 32.5, color: '#fff', font: { fontSize: 12, fontFamily: 'HelveticaNeue' } }
-		*/
+	".checkbox": { height: 24,
+		Icon: { width: 22.5, height: 24, left: 0 },
+		IconOff: { image: '/images/checkbox.png' },
+	 	IconOn: { image: '/images/checkbox-on.png' },
+	 	Title: { left: 32.5, color: '#fff', font: { fontSize: 12, fontFamily: 'HelveticaNeue' } },
+	 	// TitleOff: {},
+	 	// TitleOn: {}
+	}
+	".checkbox-indoor": { selected: true, Title: { text: 'Indoor' } }
+
+	/*
+	// use iconfont for checkbox's icon
+	".checkbox": { height: 24,
+		module: 'iconfont',
+		Icon: { left: 0, color: '#6389c1', font: { fontSize: 18, fontFamily: 'sportsmap_iconfont' } },
+		IconOff: { text: 'checkbox_e' },
+	 	IconOn: { text: 'checkbox_f' },
+	 	Title: { left: 32.5, color: '#fff', font: { fontSize: 12, fontFamily: 'HelveticaNeue' } },
+	 	// TitleOff: {},
+	 	// TitleOn: {}
+	}
+	*/
 		
 js
 
-	$.chkIndoor.load($, { id: 'indoor', selected: true, title: 'Indoor', classes: 'imc' });
-	// or 
-	// $.chkIndoor.load($, { id: 'indoor', selected: true, title: null, classes: 'imc' });
-	
-	/*
-	// use iconfont for checkbox's icon
-	// https://github.com/imobicloud/libs/blob/master/iconfont.js
-	$.chkIndoor.load($, { id: 'indoor', selected: true, title: 'Indoor', classes: 'imc-iconfont', module: require('iconfont') });
-	*/
-	
-	// get params
-	$.chkIndoor.getParams();
-	
 	// get value
 	$.chkIndoor.getValue(); // true or false
 	
 	// set value
 	$.chkIndoor.setValue(false);
 	
-	$.chkIndoor.unload();
+	function chkIndoorClick(e) {
+		// e.id
+		// e.value
+	}
+	
+Change log:
+
+- 7/15/2016: 
+	+ remove function load
+	+ remove function unload
+	+ remove function getParams
+	+ remove change event
+	+ add click event
+	+ change tss
+	
+	

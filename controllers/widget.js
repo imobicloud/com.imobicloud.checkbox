@@ -1,78 +1,51 @@
-var id, G, params;
+var args = $.args;
 
-init(arguments[0] || {});
-function init(args) {
-	id = args.id;
-	var exclude = ['id', 'children'];
+init();
+function init() {
+	var exclude = ['id', 'children', 'selected', 'module', 'Icon', 'IconOff', 'IconOn', 'Title', 'TitleOff', 'TitleOn'];
 	$.container.applyProperties(_.omit(args, exclude));
+	
+	loadCheckbox();
 }
 
-/*
- _params = {
- 	classes: '',
- 	selected: false,
- 	title: '', or null
- 	module: null // use iconfont module for icon. ex: require('iconfont')
- }
- * */
-exports.load = function(_G, _params) {
-	params && $.container.removeAllChildren();
-	
-	G = _G;
-	params = _params;
-	
-	var classes = _params.classes,
-		state = _params.selected != true ? '-normal' : '-selected';
-		
-	var checkboxStyle = { classes: classes + '-checkbox-icon '  + classes + '-checkbox-icon'  + state, touchEnabled: false };
-	if (_params.module == null) {
-		$.container.add( _G.UI.create('ImageView', checkboxStyle) );
+function loadCheckbox() {
+  	var checkboxStyle = _.extend(args.Icon, args.selected != true ? args.IconOff : args.IconOn, { touchEnabled: false });	
+	if (args.module == null) {
+		$.container.add( $.UI.create('ImageView', checkboxStyle) );
 	} else {
-		$.container.add( _params.module.createLabel( _G.createStyle(checkboxStyle) ) );
+		$.container.add( require(args.module).createLabel( $.createStyle(checkboxStyle) ) );
 	}
 		
-	if (_params.title) {
-		$.container.add( _G.UI.create('Label', { classes: classes + '-checkbox-title ' + classes + '-checkbox-title' + state, text: _params.title, touchEnabled: false }) );
+	if (args.Title) {
+		var titleStyle = _.extend(args.Title, args.selected != true ? args.TitleOff : args.TitleOn, { touchEnabled: false });
+		$.container.add( $.UI.create('Label', titleStyle) );
 	}
-};
-
-exports.unload = function() {
-	$.container.removeAllChildren();
-	G = params = null;
-};
+}
 
 function checkboxClick(e) {
-	setValue(!params.selected);
-  	$.trigger('change', { id: id, value: params.selected });
+	setValue(!args.selected);
+  	$.trigger('click', { id: args.id, value: args.selected });
 }
 
 function setValue(isSelected) {
-  	params.selected = isSelected;
+  	args.selected = isSelected;
   	
-  	var classes = params.classes,
-  		children = $.container.children,
-  		state = params.selected != true ? '-normal' : '-selected';
+  	var children = $.container.children;
   	
-  	var checkboxStyle = G.createStyle({ classes: classes + '-checkbox-icon'  + state });
-  	if (params.module && checkboxStyle.text) {
-  		checkboxStyle.text = params.module.getText(checkboxStyle.text);
+  	var checkboxStyle = args.selected != true ? args.IconOff : args.IconOn;
+  	if (args.module && checkboxStyle.text) {
+  		checkboxStyle.text = require(args.module).getText(checkboxStyle.text);
 	}
-	
-	if (children[0]) {
-		children[0].applyProperties(checkboxStyle);
-	}
+	children[0].applyProperties(checkboxStyle);
   	
-  	if (children[1]) {
-  		children[1].applyProperties( G.createStyle({ classes: classes + '-checkbox-title'  + state }) );
+  	if (args.TitleOn && children[1]) {
+  		children[1].applyProperties( args.selected != true ? args.TitleOff : args.TitleOn );
   	}
   	
 }
 exports.setValue = setValue;
 
 exports.getValue = function() {
-	return params ? params.selected: false;
+	return args.selected;
 };
 
-exports.getParams = function() {
-	return params;
-};
