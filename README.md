@@ -11,6 +11,8 @@ xml
 tss
 
 	".checkbox": { height: 24,
+		deferLoading:false, 
+		selected: false, 
 		Icon: { width: 22.5, height: 24, left: 0 },
 		IconOff: { image: '/images/checkbox.png' },
 	 	IconOn: { image: '/images/checkbox-on.png' },
@@ -24,6 +26,7 @@ tss
 	// use iconfont for checkbox's icon
 	".checkbox": { height: 24,
 		module: 'iconfont',
+		selected: false, 
 		Icon: { left: 0, color: '#6389c1', font: { fontSize: 18, fontFamily: 'sportsmap_iconfont' } },
 		IconOff: { text: 'checkbox_e' },
 	 	IconOn: { text: 'checkbox_f' },
@@ -34,6 +37,16 @@ tss
 	*/
 		
 js
+
+	/*
+	// if deferLoading is true: widget will not auto loaded
+	// you have to load it manually
+	// you can override the default load + update functions
+	$.chkIndoor.init({
+		checkboxLoader: function(params, container){},
+		checkboxUpdater: function(params, container){}
+	});
+	*/
 
 	// get value
 	$.chkIndoor.getValue(); // true or false
@@ -49,6 +62,7 @@ js
 Change log:
 
 - 7/15/2016: 
+ 	+ add function init for custom load + update styles
 	+ remove function load
 	+ remove function unload
 	+ remove function getParams

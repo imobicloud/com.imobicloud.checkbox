@@ -1,25 +1,58 @@
 var args = $.args;
+var checkboxLoader, checkboxUpdater;
 
 init();
 function init() {
-	var exclude = ['id', 'children', 'selected', 'module', 'Icon', 'IconOff', 'IconOn', 'Title', 'TitleOff', 'TitleOn'];
+	var exclude = [
+		'id', 'children', 
+		'deferLoading', 'module', 'selected', 
+		'Icon', 'IconOff', 'IconOn', 'Title', 'TitleOff', 'TitleOn'
+	];
 	$.container.applyProperties(_.omit(args, exclude));
 	
-	loadCheckbox();
+	checkboxLoader = loadCheckbox;
+	checkboxUpdater = updateCheckbox;
+	
+	if (args.deferLoading !== true) {
+		checkboxLoader(args, $.container);
+	}
 }
 
-function loadCheckbox() {
-  	var checkboxStyle = _.extend(args.Icon, args.selected != true ? args.IconOff : args.IconOn, { touchEnabled: false });	
-	if (args.module == null) {
-		$.container.add( $.UI.create('ImageView', checkboxStyle) );
+exports.init = function(params) {
+	params.checkboxLoader && (checkboxLoader = params.checkboxLoader);
+	params.checkboxUpdater && (checkboxUpdater = params.checkboxUpdater);
+    checkboxLoader(args, $.container);
+};
+
+function loadCheckbox(params, container) {
+	var isSelected = params.selected;
+	
+  	var checkboxStyle = _.extend(params.Icon, isSelected ? params.IconOn : params.IconOff, { touchEnabled: false });	
+	if (params.module == null) {
+		container.add( $.UI.create('ImageView', checkboxStyle) );
 	} else {
-		$.container.add( require(args.module).createLabel( $.createStyle(checkboxStyle) ) );
+		container.add( require(params.module).createLabel( $.createStyle(checkboxStyle) ) );
 	}
 		
-	if (args.Title) {
-		var titleStyle = _.extend(args.Title, args.selected != true ? args.TitleOff : args.TitleOn, { touchEnabled: false });
-		$.container.add( $.UI.create('Label', titleStyle) );
+	if (params.Title) {
+		var titleStyle = _.extend(params.Title, isSelected ? params.TitleOn : params.TitleOff, { touchEnabled: false });
+		container.add( $.UI.create('Label', titleStyle) );
 	}
+}
+
+function updateCheckbox(params, container) {
+	var isSelected = params.selected;
+  	var children = container.children;
+  	
+  	var checkboxStyle = isSelected ? params.IconOn : params.IconOff;
+  	if (params.module && checkboxStyle.text) {
+  		checkboxStyle.text = require(params.module).getText(checkboxStyle.text);
+	}
+	children[0].applyProperties(checkboxStyle);
+  	
+  	if (params.TitleOn && children[1]) {
+  		children[1].applyProperties( isSelected ? params.TitleOn : params.TitleOff );
+  	}
 }
 
 function checkboxClick(e) {
@@ -28,20 +61,10 @@ function checkboxClick(e) {
 }
 
 function setValue(isSelected) {
-  	args.selected = isSelected;
-  	
-  	var children = $.container.children;
-  	
-  	var checkboxStyle = args.selected != true ? args.IconOff : args.IconOn;
-  	if (args.module && checkboxStyle.text) {
-  		checkboxStyle.text = require(args.module).getText(checkboxStyle.text);
+	if (isSelected != args.selected) {
+		args.selected = isSelected;
+  		checkboxUpdater(args, $.container);
 	}
-	children[0].applyProperties(checkboxStyle);
-  	
-  	if (args.TitleOn && children[1]) {
-  		children[1].applyProperties( args.selected != true ? args.TitleOff : args.TitleOn );
-  	}
-  	
 }
 exports.setValue = setValue;
 
