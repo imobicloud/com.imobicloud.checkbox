@@ -5,13 +5,18 @@ init();
 function init() {
 	var exclude = [
 		'id', 'children', 
-		'deferLoading', 'module', 'selected', 
+		'deferLoading', 'module', 'selected', 'title',
 		'Icon', 'IconOff', 'IconOn', 'Title', 'TitleOff', 'TitleOn'
 	];
 	$.container.applyProperties(_.omit(args, exclude));
 	
 	checkboxLoader = loadCheckbox;
 	checkboxUpdater = updateCheckbox;
+	
+	args.selected = validateSelected(args.selected);
+	if (args.title && args.Title && args.Title.text == null) {
+		args.Title.text = args.title;
+	}
 	
 	if (args.deferLoading !== true) {
 		checkboxLoader(args, $.container);
@@ -23,6 +28,13 @@ exports.init = function(params) {
 	params.checkboxUpdater && (checkboxUpdater = params.checkboxUpdater);
     checkboxLoader(args, $.container);
 };
+
+function validateSelected(selected) {
+  	if (typeof selected == 'string') {
+  		selected = (selected == 'true');
+  	}
+  	return selected;
+}
 
 function loadCheckbox(params, container) {
 	var isSelected = params.selected;
@@ -61,6 +73,8 @@ function checkboxClick(e) {
 }
 
 function setValue(isSelected) {
+	isSelected = validateSelected(isSelected);
+	
 	if (isSelected != args.selected) {
 		args.selected = isSelected;
   		checkboxUpdater(args, $.container);
