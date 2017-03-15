@@ -57,10 +57,10 @@ function updateCheckbox(params, container) {
   	var children = container.children;
 
   	var checkboxStyle = isSelected ? params.IconOn : params.IconOff;
-  	if (params.module && checkboxStyle.text) {
-  		checkboxStyle.text = require(params.module).getText(checkboxStyle.text);
-	}
 	children[0].applyProperties(checkboxStyle);
+	if (params.module && checkboxStyle.text) {
+  		children[0].text = require(params.module).getText(checkboxStyle.text);
+	}
 
   	if (params.TitleOn && children[1]) {
   		children[1].applyProperties( isSelected ? params.TitleOn : params.TitleOff );
